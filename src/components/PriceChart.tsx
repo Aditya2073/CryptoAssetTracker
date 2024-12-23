@@ -26,7 +26,7 @@ export function PriceChart({ data }: PriceChartProps) {
           />
           <YAxis 
             stroke="#fff"
-            tickFormatter={(value) => formatCurrency(value)}
+            tickFormatter={(value: number) => formatCurrency(value)}
             tickLine={false}
             axisLine={false}
           />
@@ -35,7 +35,7 @@ export function PriceChart({ data }: PriceChartProps) {
               if (active && payload && payload.length) {
                 return (
                   <div className="neo-brutalist-card p-4">
-                    <p className="font-mono">{formatCurrency(payload[0].value)}</p>
+                    <p className="font-mono">{formatCurrency(Number(payload[0].value))}</p>
                     <p className="text-sm text-muted-foreground">{payload[0].payload.time}</p>
                   </div>
                 );
