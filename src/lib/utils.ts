@@ -16,8 +16,9 @@ export function formatCurrency(value: number): string {
 
 const API_URL = 'https://api.coincap.io/v2';
 
-export async function fetchTopAssets() {
-  const response = await fetch(`${API_URL}/assets?limit=50`);
+export async function fetchTopAssets(search?: string) {
+  const searchParam = search ? `&search=${search}` : '';
+  const response = await fetch(`${API_URL}/assets?limit=2000${searchParam}`);
   if (!response.ok) throw new Error('Failed to fetch assets');
   return response.json();
 }

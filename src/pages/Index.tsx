@@ -8,8 +8,9 @@ export default function Index() {
   const [searchTerm, setSearchTerm] = useState('');
   
   const { data, isLoading, error } = useQuery({
-    queryKey: ['assets'],
-    queryFn: fetchTopAssets,
+    queryKey: ['assets', searchTerm],
+    queryFn: () => fetchTopAssets(searchTerm),
+    staleTime: 30000,
   });
 
   if (isLoading) {
@@ -29,11 +30,6 @@ export default function Index() {
     );
   }
 
-  const filteredAssets = data.data.filter((asset: any) => 
-    asset.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    asset.symbol.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
   return (
     <div className="min-h-screen p-8">
       <div className="mb-12 text-center">
@@ -41,7 +37,7 @@ export default function Index() {
           Crypto Asset Tracker
         </h1>
         <p className="mt-4 text-xl text-muted-foreground">
-          Top 50 Cryptocurrencies by Market Cap
+          Search Any Cryptocurrency
         </p>
       </div>
       <div className="max-w-md mx-auto mb-8">
@@ -54,7 +50,7 @@ export default function Index() {
         />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredAssets.map((asset: any) => (
+        {data.data.map((asset: any) => (
           <CryptoCard
             key={asset.id}
             id={asset.id}
