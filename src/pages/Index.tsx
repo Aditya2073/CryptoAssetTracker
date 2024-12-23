@@ -1,8 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import { CryptoCard } from '@/components/CryptoCard';
 import { fetchTopAssets } from '@/lib/utils';
+import { Input } from '@/components/ui/input';
+import { useState } from 'react';
 
 export default function Index() {
+  const [searchTerm, setSearchTerm] = useState('');
+  
   const { data, isLoading, error } = useQuery({
     queryKey: ['assets'],
     queryFn: fetchTopAssets,
@@ -25,6 +29,11 @@ export default function Index() {
     );
   }
 
+  const filteredAssets = data.data.filter((asset: any) => 
+    asset.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    asset.symbol.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="min-h-screen p-8">
       <div className="mb-12 text-center">
@@ -35,8 +44,17 @@ export default function Index() {
           Top 50 Cryptocurrencies by Market Cap
         </p>
       </div>
+      <div className="max-w-md mx-auto mb-8">
+        <Input
+          type="text"
+          placeholder="Search by name or symbol..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="neo-brutalist-card w-full h-12 text-lg"
+        />
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {data.data.map((asset: any) => (
+        {filteredAssets.map((asset: any) => (
           <CryptoCard
             key={asset.id}
             id={asset.id}
