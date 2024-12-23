@@ -27,7 +27,14 @@ export default function Index() {
 
   return (
     <div className="min-h-screen p-8">
-      <h1 className="text-4xl font-bold mb-8">Top 50 Crypto Assets</h1>
+      <div className="mb-12 text-center">
+        <h1 className="text-6xl font-extrabold mb-4 text-white neo-brutalist-card inline-block px-6 py-4 border-[3px] border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transform hover:-translate-x-[3px] hover:-translate-y-[3px] hover:shadow-none transition-all">
+          Crypto Asset Tracker
+        </h1>
+        <p className="mt-4 text-xl text-muted-foreground">
+          Top 50 Cryptocurrencies by Market Cap
+        </p>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {data.data.map((asset: any) => (
           <CryptoCard
